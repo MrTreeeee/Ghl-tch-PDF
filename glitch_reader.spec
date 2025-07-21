@@ -5,7 +5,7 @@ a = Analysis(
     ['glitch_reader.py'],
     pathex=[],
     binaries=[],
-    datas=[('resources', 'resources ')],
+    datas=[('cat.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

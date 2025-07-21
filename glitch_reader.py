@@ -1,6 +1,5 @@
 import copy
 import os
-import importlib.resources
 import pdf_reader
 import webbrowser
 
@@ -90,8 +89,8 @@ class glitchReader(QMainWindow):
         self.ui.graphicsView.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
         self.pixmap_item = None
         self.resize(1920, 1080)
-        with importlib.resources.path('resources', 'cat.png') as img_path:
-            self.add_image(str(img_path))
+
+        self.add_image(resource_path('cat.png'))
 
         self.ui.open_button.clicked.connect(self.open_file_dialog)  # open按钮绑定打开文件方法
 
@@ -515,9 +514,9 @@ class glitchReader(QMainWindow):
     # 处理输入窗口的用户输入
     def match_input(self, input_text: str):
         if re.search(r'real page\s*:?\s*(\d+)*\s*', input_text):  # 匹配占位符显示真实页数
-            ecn = re.search(r'real page\s*:?\s*(\d+)*\s*', input_text).group(1)
-            if ecn is not None:
-                self.doc_paras_copy['ecn'] = ecn
+            real = re.search(r'real page\s*:?\s*(\d+)*\s*', input_text).group(1)
+            if real is not None:
+                self.doc_paras_copy['ecn'] = self.doc_paras_copy['current page index'] + 1 - int(real)
             self.doc_paras_copy['real page'] = True
             self.text_select_and_display()
         elif re.search(r'pdf page\s*', input_text):  # 匹配显示pdf页数
